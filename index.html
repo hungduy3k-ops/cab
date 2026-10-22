@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#f8dce8">
+<title>30 Ngày Sống Khỏe 🌷</title>
+<style>
+:root{--pink:#f4b8cf;--pink2:#fff0f6;--purple:#e9e2ff;--ink:#493747;--muted:#786a75;--white:#fff;--line:#f0dce5;--green:#dff4e6}
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(145deg,#fff5f8,#f7f3ff);font-family:system-ui,-apple-system,Segoe UI,sans-serif;color:var(--ink)}
+header{padding:28px 16px 22px;text-align:center;background:linear-gradient(135deg,#f8dce8,#e9e2ff);border-radius:0 0 28px 28px}
+h1{margin:0;font-size:clamp(25px,5vw,36px)}header p{margin:8px auto 0;max-width:620px;color:#665566}
+.wrap{max-width:980px;margin:0 auto;padding:16px}
+.tabs{display:flex;gap:8px;overflow:auto;padding:4px 0 12px}
+.tab{border:1px solid var(--line);background:#fff;padding:10px 14px;border-radius:999px;color:var(--ink);font-weight:700;white-space:nowrap;cursor:pointer}
+.tab.active{background:#6b4d68;color:white;border-color:#6b4d68}
+.panel{display:none}.panel.active{display:block}
+.card{background:rgba(255,255,255,.94);border:1px solid var(--line);border-radius:20px;padding:17px;margin-bottom:14px;box-shadow:0 6px 22px #68465c0a}
+h2{font-size:20px;margin:0 0 12px}h3{font-size:16px;margin:0 0 7px}
+.muted{color:var(--muted);font-size:14px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.stat{background:var(--pink2);padding:13px;border-radius:16px;text-align:center}.stat strong{display:block;font-size:23px}
+button,input,select{font:inherit}button{cursor:pointer}.primary{background:#6b4d68;color:#fff;border:0;padding:11px 15px;border-radius:12px;font-weight:700}
+.secondary{background:#fff;border:1px solid var(--line);padding:10px 13px;border-radius:12px;color:var(--ink);font-weight:650}
+.row{display:flex;align-items:center;justify-content:space-between;gap:12px}.task{display:flex;gap:10px;align-items:flex-start;padding:12px 0;border-bottom:1px solid #f5eaf0}.task:last-child{border-bottom:0}.task input{width:19px;height:19px;accent-color:#94617e;margin-top:2px}.task label{flex:1}.done label{text-decoration:line-through;color:#8a7e87}
+.daygrid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:7px}.day{padding:10px 2px;border:1px solid var(--line);border-radius:12px;background:#fff;color:var(--ink);font-weight:700}.day.selected{background:#6b4d68;color:white}.day.finished{box-shadow:inset 0 -4px #b4dfc4}
+.meal{padding:10px 0;border-bottom:1px solid #f3e5ec}.meal:last-child{border-bottom:0}.meal b{display:block;margin-bottom:3px}
+label.field{display:block;font-size:14px;font-weight:700;margin:10px 0 5px}input[type="number"],input[type="date"],input[type="text"],select{width:100%;border:1px solid #e8d5df;background:white;padding:11px;border-radius:11px;color:var(--ink)}
+progress{width:100%;height:14px;accent-color:#94617e}
+.notice{background:#fff7e7;border:1px solid #f2dfb3;padding:12px;border-radius:14px;font-size:14px}
+footer{text-align:center;padding:18px;color:var(--muted);font-size:12px}
+@media(max-width:600px){.grid{grid-template-columns:1fr}.stats{grid-template-columns:repeat(3,minmax(0,1fr))}.stat{padding:10px 4px}.stat strong{font-size:20px}.wrap{padding:12px}.card{padding:14px}}
+</style>
+
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="apple-touch-icon" href="./icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Song Khoe 30">
+<meta name="description" content="Theo dõi thói quen sinh hoạt và thực đơn 30 ngày.">
+
+</head>
+<body>
+<header>
+  <div style="font-size:34px">🌷 💗 🌿</div>
+  <h1>30 Ngày Sống Khỏe</h1>
+  <p>Ăn đủ bữa · Ngủ đều hơn · Vận động nhẹ · Tiết kiệm mỗi ngày</p>
+</header>
+<div class="wrap">
+  <nav class="tabs" aria-label="Các mục ứng dụng">
+    <button class="tab active" data-tab="home">🏡 Tổng quan</button>
+    <button class="tab" data-tab="routine">⏰ Sinh hoạt</button>
+    <button class="tab" data-tab="food">🍚 Thực đơn</button>
+    <button class="tab" data-tab="progress">🌱 Tiến độ</button>
+  </nav>
+
+  <section id="home" class="panel active">
+    <div class="card">
+      <div class="row"><div><h2>Chào b, hôm nay mình chăm sóc bản thân nha 💗</h2><div class="muted" id="todayLabel"></div></div><span style="font-size:34px">🌸</span></div>
+      <label class="field" for="daySelect">Chọn ngày trong hành trình</label>
+      <select id="daySelect"></select>
+      <div style="margin-top:14px" class="row"><b id="dayHeading">Ngày 1</b><span id="taskCount" class="muted">0/5 việc</span></div>
+      <progress id="dayProgress" max="100" value="0"></progress>
+      <div id="dailyTasks"></div>
+      <button class="secondary" id="resetDay" style="margin-top:10px">Bỏ đánh dấu ngày này</button>
+    </div>
+    <div class="stats">
+      <div class="stat"><strong id="daysDone">0/30</strong><span class="muted">Ngày hoàn thành</span></div>
+      <div class="stat"><strong id="tasksDone">0</strong><span class="muted">Việc đã làm</span></div>
+      <div class="stat"><strong id="budgetText">50k</strong><span class="muted">Ngân sách/ngày</span></div>
+    </div>
+    <div class="card">
+      <h2>🎯 Mục tiêu của b</h2>
+      <div class="grid">
+        <div><label class="field" for="budget">Ngân sách ăn mỗi ngày (đ)</label><input id="budget" type="number" min="10000" step="5000" value="40000"></div>
+        <div><label class="field" for="waterGoal">Mục tiêu nước (ml)</label><input id="waterGoal" type="number" min="500" step="250" value="1500"></div>
+      </div>
+      <button class="primary" id="saveGoals" style="margin-top:12px">Lưu mục tiêu</button>
+      <p class="muted">Mục tiêu nước chỉ là gợi ý có thể điều chỉnh theo thời tiết, hoạt động và sức khỏe. Không cần cố uống quá mức.</p>
+    </div>
+    <div class="notice">💛 Đây là công cụ tạo thói quen, không phải lời khuyên y tế. Đừng nhịn đói hoặc ép cân nhanh. Nếu thấy mệt, chóng mặt hoặc không khỏe, hãy nghỉ ngơi và trao đổi với nhân viên y tế khi cần.</div>
+  </section>
+
+  <section id="routine" class="panel">
+    <div class="card">
+      <h2>⏰ Lịch sinh hoạt mẫu</h2>
+      <p class="muted">B có thể chỉnh giờ phù hợp với giờ học/làm. Nếu đang thức khuya, hãy đổi dần 15–30 phút mỗi vài ngày.</p>
+      <div class="meal"><b>07:00 — Thức dậy 🌤️</b>Uống nước nếu khát, vệ sinh cá nhân, đón ánh sáng tự nhiên.</div>
+      <div class="meal"><b>07:30 — Ăn sáng 🍞</b>Bánh mì trứng, khoai lang và trứng, hoặc món sáng quen thuộc.</div>
+      <div class="meal"><b>12:00 — Ăn trưa 🍚</b>Cơm, rau và món đạm như cá, trứng, gà, thịt hoặc đậu hũ.</div>
+      <div class="meal"><b>16:30 — Vận động 🚶</b>Đi bộ nhẹ 10–20 phút nếu phù hợp thể lực; tăng từ từ khi thoải mái.</div>
+      <div class="meal"><b>18:30 — Ăn tối 🥬</b>Ăn đủ chất; không cần bỏ cơm. Nếu đói, có thể ăn thêm bữa phụ.</div>
+      <div class="meal"><b>22:00 — Thư giãn 🌙</b>Giảm màn hình, chuẩn bị ngủ; người trưởng thành thường cần 7–9 giờ ngủ.</div>
+    </div>
+    <div class="card">
+      <h2>💧 Theo dõi nước uống hôm nay</h2>
+      <div class="row"><span id="waterCount">0 ml</span><span class="muted" id="waterPercent">0%</span></div>
+      <progress id="waterProgress" max="100" value="0"></progress>
+      <div class="row" style="margin-top:12px"><button class="secondary" id="waterMinus">− 250 ml</button><button class="primary" id="waterPlus">+ 250 ml</button></div>
+      <p class="muted">Chỉ để theo dõi thói quen; nhu cầu thực tế thay đổi theo cơ thể, thời tiết, vận động và hướng dẫn y tế.</p>
+    </div>
+  </section>
+
+  <section id="food" class="panel">
+    <div class="card">
+      <h2>🍚 Thực đơn 30 ngày giá rẻ</h2>
+      <p class="muted">Chọn ngày để xem gợi ý. Giá thay đổi theo khu vực; có thể nấu món trưa và tối cùng nguyên liệu để tiết kiệm.</p>
+      <label class="field" for="mealDay">Ngày thực đơn</label><select id="mealDay"></select>
+      <div id="menuContent"></div>
+      <div class="notice" style="margin-top:12px">Mẹo tiết kiệm: mua rau theo mùa, dùng luân phiên trứng/đậu hũ/cá/thịt, nấu vừa đủ và bảo quản thức ăn an toàn. Ăn thêm trái cây hoặc bữa phụ nếu đói.</div>
+    </div>
+  </section>
+
+  <section id="progress" class="panel">
+    <div class="card">
+      <h2>🌱 Lịch tiến độ 30 ngày</h2>
+      <p class="muted">Ngày có dấu ✓ là ngày b đã hoàn thành tất cả nhiệm vụ đã chọn.</p>
+      <div class="daygrid" id="calendar"></div>
+    </div>
+    <div class="card">
+      <h2>⚖️ Cân nặng (tùy chọn)</h2>
+      <p class="muted">Mục tiêu 60 kg là mục tiêu dài hạn. Không cần cân mỗi ngày hay ép bản thân giảm nhanh.</p>
+      <div class="grid">
+        <div><label class="field" for="weight">Cân nặng hiện tại (kg)</label><input id="weight" type="number" min="20" max="300" step="0.1" placeholder="Ví dụ: 75"></div>
+        <div><label class="field" for="targetWeight">Mục tiêu dài hạn (kg)</label><input id="targetWeight" type="number" min="20" max="300" step="0.1" value="60"></div>
+      </div>
+      <button class="primary" id="saveWeight" style="margin-top:12px">Lưu thông tin</button>
+      <p id="weightResult" class="muted"></p>
+    </div>
+    <div class="card">
+      <h2>🔒 Dữ liệu riêng tư</h2>
+      <p class="muted">Thông tin được lưu trên trình duyệt của thiết bị này bằng localStorage. Nếu xóa dữ liệu trình duyệt hoặc đổi thiết bị, dữ liệu có thể mất.</p>
+      <button class="secondary" id="exportData">Xuất bản sao dữ liệu</button>
+      <button class="secondary" id="clearData" style="margin-left:6px">Xóa dữ liệu ứng dụng</button>
+    </div>
+  </section>
+</div>
+<footer>Made with 💗 · 30 Ngày Sống Khỏe · Phiên bản HTML offline</footer>
+<script>
+const KEY='songKhoe30_v1';
+const tasks=[
+  ['Ăn đủ các bữa chính','Ăn đủ bữa, không cố nhịn đói.'],
+  ['Ăn rau hoặc trái cây','Chọn món sẵn có, hợp túi tiền.'],
+  ['Vận động phù hợp','Đi bộ hoặc vận động nhẹ theo thể lực.'],
+  ['Uống nước đều','Uống theo nhu cầu, không ép quá mức.'],
+  ['Chuẩn bị giờ ngủ','Thư giãn và giữ lịch ngủ tương đối ổn định.']
+];
+const menus=[
+['Bánh mì trứng','Cơm, gà, rau luộc','Cơm, đậu hũ sốt cà'],
+['Khoai lang, sữa','Cơm, cá, canh rau','Cơm, trứng và rau'],
+['Bánh mì trứng','Cơm, thịt nạc, rau','Cơm, đậu hũ, canh bí'],
+['Yến mạch, chuối','Cơm, cá, rau','Bún thịt bằm, rau'],
+['Khoai lang, trứng','Cơm, gà, rau','Cơm, trứng, canh cải'],
+['Bánh mì trứng','Cơm, đậu hũ và thịt','Cơm, cá, rau'],
+['Yến mạch, sữa','Cơm, thịt nạc, canh','Cơm, trứng, đậu hũ'],
+['Khoai lang, trứng','Cơm, cá nục, rau','Cơm, đậu hũ sốt cà'],
+['Bánh mì trứng','Cơm, gà, canh','Cơm, thịt bằm, rau'],
+['Yến mạch, chuối','Cơm, trứng, rau','Bún cá hoặc bún đậu hũ'],
+['Khoai lang, sữa','Cơm, thịt nạc, rau','Cơm, cá, canh'],
+['Bánh mì trứng','Cơm, đậu hũ, trứng','Cơm, gà, rau'],
+['Yến mạch, sữa','Cơm, cá, rau','Cơm, thịt bằm, canh'],
+['Khoai lang, trứng','Cơm, gà, rau','Cơm, đậu hũ, canh bí'],
+['Bánh mì trứng','Cơm, cá, rau','Cơm, thịt nạc, canh'],
+['Khoai lang, sữa','Cơm, gà, rau','Cơm, đậu hũ, trứng'],
+['Yến mạch, chuối','Cơm, cá nục, canh','Cơm, thịt bằm, rau'],
+['Bánh mì trứng','Cơm, thịt nạc, rau','Bún thịt, rau'],
+['Khoai lang, trứng','Cơm, đậu hũ, rau','Cơm, cá, canh'],
+['Yến mạch, sữa','Cơm, gà, rau','Cơm, trứng, canh'],
+['Bánh mì trứng','Cơm, cá, rau','Cơm, thịt nạc, rau'],
+['Khoai lang, trứng','Cơm, gà, rau','Cơm, đậu hũ, canh'],
+['Bánh mì trứng','Cơm, cá, rau','Cơm, thịt nạc, canh'],
+['Yến mạch, chuối','Cơm, trứng, rau','Cơm, cá, canh'],
+['Khoai lang, sữa','Cơm, gà, rau','Bún thịt bằm'],
+['Bánh mì trứng','Cơm, đậu hũ và thịt','Cơm, cá, rau'],
+['Yến mạch, sữa','Cơm, thịt nạc, rau','Cơm, trứng, canh'],
+['Khoai lang, trứng','Cơm, cá, rau','Cơm, gà, canh'],
+['Bánh mì trứng, sữa','Cơm, cá, rau luộc','Cơm, đậu hũ sốt cà'],
+['Khoai lang, trứng','Cơm, gà, canh rau','Cơm, thịt nạc, rau']
+];
+function blank(){return {checks:{},budget:40000,waterGoal:1500,water:{},weight:'',targetWeight:60}}
+function load(){try{return {...blank(),...JSON.parse(localStorage.getItem(KEY)||'{}')}}catch(e){return blank()}}
+let state=load(), selectedDay=1;
+const $=id=>document.getElementById(id);
+const todayKey=()=>new Date().toISOString().slice(0,10);
+function save(){try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){}}
+function getChecks(day){return state.checks[day]||[]}
+function isDone(day){return getChecks(day).length===tasks.length}
+function fillSelect(el){el.innerHTML='';for(let i=1;i<=30;i++){let o=document.createElement('option');o.value=i;o.textContent='Ngày '+i;el.appendChild(o)}}
+fillSelect($('daySelect'));fillSelect($('mealDay'));
+$('todayLabel').textContent=new Date().toLocaleDateString('vi-VN',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+function renderTasks(){
+ const checks=getChecks(selectedDay);$('dayHeading').textContent='Ngày '+selectedDay;
+ $('taskCount').textContent=checks.length+'/'+tasks.length+' việc';$('dayProgress').value=checks.length/tasks.length*100;
+ $('dailyTasks').innerHTML='';
+ tasks.forEach((t,i)=>{let div=document.createElement('div');div.className='task'+(checks.includes(i)?' done':'');
+ let cb=document.createElement('input');cb.type='checkbox';cb.checked=checks.includes(i);cb.id='task'+i;
+ cb.addEventListener('change',()=>{let a=getChecks(selectedDay).filter(n=>n!==i);if(cb.checked)a.push(i);state.checks[selectedDay]=a;save();renderAll()});
+ let lab=document.createElement('label');lab.htmlFor=cb.id;lab.innerHTML='<b>'+t[0]+'</b><div class="muted">'+t[1]+'</div>';div.append(cb,lab);$('dailyTasks').appendChild(div)});
+}
+function renderMenu(){let d=Number($('mealDay').value||1),m=menus[d-1];$('menuContent').innerHTML='';['🥣 Bữa sáng','🍚 Bữa trưa','🌙 Bữa tối'].forEach((label,i)=>{let div=document.createElement('div');div.className='meal';div.innerHTML='<b>'+label+'</b>'+m[i];$('menuContent').appendChild(div)});let p=document.createElement('p');p.className='muted';p.textContent='Giá tham khảo: điều chỉnh theo giá chợ và khẩu phần. Có thể thêm trái cây, sữa hoặc bữa phụ nếu đói.';$('menuContent').appendChild(p)}
+function renderCalendar(){let el=$('calendar');el.innerHTML='';for(let d=1;d<=30;d++){let b=document.createElement('button');b.className='day'+(d===selectedDay?' selected':'')+(isDone(d)?' finished':'');b.textContent=(isDone(d)?'✓ ':'')+d;b.title='Ngày '+d;b.onclick=()=>{selectedDay=d;$('daySelect').value=d;renderAll()};el.appendChild(b)}}
+function renderWater(){let n=state.water[todayKey()]||0,g=Number(state.waterGoal)||1500,p=Math.min(100,Math.round(n/g*100));$('waterCount').textContent=n+' ml';$('waterPercent').textContent=p+'%';$('waterProgress').value=p}
+function renderWeight(){ $('weight').value=state.weight||'';$('targetWeight').value=state.targetWeight||60;let w=Number(state.weight),t=Number(state.targetWeight);$('weightResult').textContent=w>0&&t>0?'Mục tiêu dài hạn của b: '+w+' kg → '+t+' kg. Hãy ưu tiên sức khỏe và thay đổi từ từ.':''}
+function renderAll(){renderTasks();renderMenu();renderCalendar();renderWater();renderWeight();$('daysDone').textContent=Array.from({length:30},(_,i)=>i+1).filter(isDone).length+'/30';$('tasksDone').textContent=Object.values(state.checks).reduce((s,a)=>s+a.length,0);$('budgetText').textContent=Math.round((Number(state.budget)||40000)/1000)+'k';$('budget').value=state.budget;$('waterGoal').value=state.waterGoal}
+document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x===b));document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('active',p.id===b.dataset.tab))}));
+$('daySelect').addEventListener('change',()=>{selectedDay=Number($('daySelect').value);renderAll()});
+$('mealDay').addEventListener('change',renderMenu);
+$('resetDay').addEventListener('click',()=>{if(confirm('Bỏ đánh dấu tất cả nhiệm vụ của ngày '+selectedDay+'?')){state.checks[selectedDay]=[];save();renderAll()}});
+$('saveGoals').addEventListener('click',()=>{state.budget=Math.max(10000,Number($('budget').value)||40000);state.waterGoal=Math.max(500,Number($('waterGoal').value)||1500);save();renderAll();alert('Đã lưu mục tiêu!')});
+$('waterPlus').addEventListener('click',()=>{state.water[todayKey()]=(state.water[todayKey()]||0)+250;save();renderWater()});
+$('waterMinus').addEventListener('click',()=>{state.water[todayKey()]=Math.max(0,(state.water[todayKey()]||0)-250);save();renderWater()});
+$('saveWeight').addEventListener('click',()=>{state.weight=$('weight').value;state.targetWeight=$('targetWeight').value||60;save();renderWeight();alert('Đã lưu thông tin trên thiết bị này.')});
+$('exportData').addEventListener('click',()=>{let blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='du-lieu-song-khoe-30-ngay.json';a.click();URL.revokeObjectURL(url)});
+$('clearData').addEventListener('click',()=>{if(confirm('Xóa toàn bộ dữ liệu đã lưu trên thiết bị này? Không thể hoàn tác.')){state=blank();save();selectedDay=1;$('daySelect').value=1;renderAll()}});
+$('daySelect').value=1;$('mealDay').value=1;renderAll();
+</script>
+
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function () {
+    navigator.serviceWorker.register('./service-worker.js').catch(function (err) {
+      console.log('Service worker chưa đăng ký được:', err);
+    });
+  });
+}
+</script>
+
+</body>
+</html>
